@@ -13,7 +13,7 @@ CellUnit (R package) is an supervised and graph-based algorithm for metacell ide
 Starts from count matrix that is proprocessed by Seurat package
 
 ```R
-  library(CellUnit)
+  library(CellSwarm)
   library(Seurat) 
   
   # counts as input matrix for preprocessing using Seurat
@@ -33,8 +33,8 @@ Starts from count matrix that is proprocessed by Seurat package
                              force.recalc = F, 
                              return.neighbor = T)
   
-  # Use CellUnit to derive metacells  
-  sc_object <- cell.unit(sc_object)
+  # Use CellSwarm to derive metacells  
+  sc_object <- cell.swarm(sc_object)
 ```
 
 ## Citation
