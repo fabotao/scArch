@@ -1,5 +1,5 @@
-# CellUnit
-CellUnit (R package) is an supervised and graph-based algorithm for metacell identification, that demonstrates superior performance to existing algorithms.
+# CellSwarm
+CellSwarm (R package) is an supervised and graph-based algorithm for metacell identification, that demonstrates superior performance to existing algorithms.
 
 
 ## Installation
