@@ -1,0 +1,4 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("stats", "as.dist", "cor", "density")
+importFrom("utils", "data")
+useDynLib(CellSwarm, .registration = TRUE)

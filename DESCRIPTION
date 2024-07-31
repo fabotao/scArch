@@ -1,0 +1,25 @@
+Package: CellSwarm
+Type: Package
+Title: Inferring metacells for cell state representation in single-cell data 
+Version: 0.1.0
+Author: Botao Fa
+Maintainer: Botao Fa <fabotao@xjtu.edu.cn>
+Description: With increasing numbers of cells sequenced, find all the subtle cell states 
+    is of high importance. CellUnit is an unsupervised, graph-based algorithm that 
+    aggregates cells into compact metacells based on cell condensation and recursive splitting 
+    with curated termination criteria.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 4.0.0)
+Imports: 
+    Rcpp (>= 0.11.0), 
+    Seurat (>= 4.0.2), 
+    lsa (>= 0.73.3), 
+    dbscan, 
+    SeuratObject, 
+    fastICA (>= 1.2.2),
+    stats,
+    utils
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 7.2.3
