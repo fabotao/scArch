@@ -194,11 +194,16 @@ RunICA <- function(sob,
 
 
 metacell.expr <- function(sob){
-  cell.clusters <- sob$subcluster
+  cell.clusters <- sob$metacell
   cl.uniq <- sort(unique(cell.clusters))
   cell.num <- length(cell.clusters)
 
-  exp.2000 <- sob@assays$RNA@counts
+  assay.class <- class(sob@assays$RNA)
+  if(assay.class=='Assay'){
+    exp.2000 <- sob@assays$RNA@counts
+  }else{
+    exp.2000 <- sob@assays$RNA@layers$counts ## Acommodate for Assay5
+  }
 
   ave.mat.list <- tapply(1:(cell.num), cell.clusters, function(x){Matrix::rowSums(exp.2000[,x,drop=F])})
   ave.mat <- (matrix(unlist(ave.mat.list), nrow=length(ave.mat.list), ncol=dim(exp.2000)[1], byrow = T))
