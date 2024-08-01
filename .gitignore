@@ -5,5 +5,5 @@
 src/*.o
 src/*.so
 src/*.dll
-CellUnit.Rproj
+CellSwarm.Rproj
 .Rbuildignore
