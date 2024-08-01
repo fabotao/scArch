@@ -13,7 +13,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // knn_vote
 Rcpp::NumericVector knn_vote(const arma::rowvec& V, const arma::mat& M, const int steps);
-RcppExport SEXP _CellUnit_knn_vote(SEXP VSEXP, SEXP MSEXP, SEXP stepsSEXP) {
+RcppExport SEXP _CellSwarm_knn_vote(SEXP VSEXP, SEXP MSEXP, SEXP stepsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,7 +26,7 @@ END_RCPP
 }
 // MeanShift1
 Rcpp::NumericVector MeanShift1(const arma::rowvec& V, const arma::mat& M, const arma::mat& N, const int steps);
-RcppExport SEXP _CellUnit_MeanShift1(SEXP VSEXP, SEXP MSEXP, SEXP NSEXP, SEXP stepsSEXP) {
+RcppExport SEXP _CellSwarm_MeanShift1(SEXP VSEXP, SEXP MSEXP, SEXP NSEXP, SEXP stepsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -40,7 +40,7 @@ END_RCPP
 }
 // subcluster_stable
 double subcluster_stable(const arma::uvec& ind, const arma::mat& M, const arma::mat& N, const int steps);
-RcppExport SEXP _CellUnit_subcluster_stable(SEXP indSEXP, SEXP MSEXP, SEXP NSEXP, SEXP stepsSEXP) {
+RcppExport SEXP _CellSwarm_subcluster_stable(SEXP indSEXP, SEXP MSEXP, SEXP NSEXP, SEXP stepsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -54,13 +54,13 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_CellUnit_knn_vote", (DL_FUNC) &_CellUnit_knn_vote, 3},
-    {"_CellUnit_MeanShift1", (DL_FUNC) &_CellUnit_MeanShift1, 4},
-    {"_CellUnit_subcluster_stable", (DL_FUNC) &_CellUnit_subcluster_stable, 4},
+    {"_CellSwarm_knn_vote", (DL_FUNC) &_CellSwarm_knn_vote, 3},
+    {"_CellSwarm_MeanShift1", (DL_FUNC) &_CellSwarm_MeanShift1, 4},
+    {"_CellSwarm_subcluster_stable", (DL_FUNC) &_CellSwarm_subcluster_stable, 4},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_CellUnit(DllInfo *dll) {
+RcppExport void R_init_CellSwarm(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

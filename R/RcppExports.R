@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 knn_vote <- function(V, M, steps) {
-    .Call(`_CellUnit_knn_vote`, V, M, steps)
+    .Call(`_CellSwarm_knn_vote`, V, M, steps)
 }
 
 MeanShift1 <- function(V, M, N, steps) {
-    .Call(`_CellUnit_MeanShift1`, V, M, N, steps)
+    .Call(`_CellSwarm_MeanShift1`, V, M, N, steps)
 }
 
 subcluster_stable <- function(ind, M, N, steps) {
-    .Call(`_CellUnit_subcluster_stable`, ind, M, N, steps)
+    .Call(`_CellSwarm_subcluster_stable`, ind, M, N, steps)
 }
 
