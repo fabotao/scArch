@@ -8,7 +8,7 @@ RunICA <- function(sob,
   # }
   set.seed(seed)
   w.init <- matrix(rnorm(n.comp^2),n.comp,n.comp)
-  vm <- sob@reductions[[reduction]]@cell.embeddings
+  vm <- sob@reductions[[reduction]]@cell.embeddings[,1:n.comp]
   res <- fastICA::fastICA((vm), n.comp=n.comp, verbose = F, w.init = w.init)
 
   ## Seurat
