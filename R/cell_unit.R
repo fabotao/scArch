@@ -14,7 +14,7 @@
 #'   Q.sub = 0.6
 #' )
 #'
-#' @param object A seurat based object containing assays, reduction, meta data etc.
+#' @param object A seurat object containing assays, reduction, meta data etc.
 #' @param reduction The reduction slot for ICA analysis. Default is pca.
 #' @param dims The target dimensions for ICA analysis. Default is 50.
 #' @param steps The number of steps for diffusion condensation in the independent component (IC) space. The default value is set to 20.
