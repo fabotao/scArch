@@ -1,9 +1,9 @@
 #'
 #' @title Identify metacells in single cell genomic data
 #'
-#' @description CellUnit aggregates cells into compact metacells based on cell condensation and recursive splitting with curated termination criteria.
+#' @description scArch aggregates cells into compact metacells based on cell condensation and recursive splitting with curated termination criteria.
 #'
-#' @usage cell.unit(
+#' @usage FindMetacells(
 #'   object,
 #'   reduction = "pca",
 #'   dims = 50,
@@ -28,7 +28,7 @@
 #' @export
 #' @examples
 #' ## Starts from counts
-#' library(CellUnit)
+#' library(scArch)
 #' library(Seurat)
 #' sc_object <- CreateSeuratObject(count=counts, project = "sc_object", min.cells = 3)
 #' sc_object$percent.mt <- PercentageFeatureSet(sc_object, pattern = "^MT-")
@@ -44,9 +44,9 @@
 #'                            reduction = "pca",
 #'                            dims = 1:50,
 #'                            force.recalc = F, return.neighbor = T)
-#' sc_object <- cell.unit(sc_object)
+#' sc_object <- FindMetacells(sc_object)
 #'
-cell.unit <- function(object, reduction='pca', dims=50, steps=20, min.cells=10, seed=1024, Q.final=0.75, Q.sub=0.6){
+FindMetacells <- function(object, reduction='pca', dims=50, steps=20, min.cells=10, seed=1024, Q.final=0.75, Q.sub=0.6){
   if(!reduction %in% names(object@reductions)){
     stop(paste0("The ", reduction," reduction slot does not exist."))
   }

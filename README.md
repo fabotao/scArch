@@ -1,19 +1,19 @@
-# CellSwarm
-CellSwarm (R package) is an supervised and graph-based algorithm for metacell identification, that demonstrates superior performance to existing algorithms.
+# scArch
+scArch (R package) is an supervised and graph-based algorithm for metacell identification, that demonstrates superior performance to existing algorithms.
 
 
 ## Installation
 ```R
   # Install in R with devtools
   library(devtools)
-  install_github('fabotao/CellSwarm')
+  install_github('fabotao/scArch')
 ```
 
 ## Usage
 Starts from count matrix that is proprocessed by Seurat package
 
 ```R
-  library(CellSwarm)
+  library(scArch)
   library(Seurat) 
   
   # counts as input matrix for preprocessing using Seurat
@@ -33,8 +33,8 @@ Starts from count matrix that is proprocessed by Seurat package
                              force.recalc = F, 
                              return.neighbor = T)
   
-  # Use CellSwarm to derive metacells  
-  sc_object <- cell.swarm(sc_object)
+  # Use scArch to derive metacells  
+  sc_object <- FindMetacells(sc_object)
 ```
 
 ## Citation

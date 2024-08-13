@@ -1,4 +1,4 @@
-Package: CellSwarm
+Package: scArch
 Type: Package
 Title: Inferring metacells for cell state representation in single-cell data 
 Version: 0.1.0
