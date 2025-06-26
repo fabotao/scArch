@@ -1,14 +1,15 @@
 
 ## Dimension reduction with NMF
 RunICA <- function(sob,
-                   n.comp=50, reduction='pca', seed=1024){
+                   dims=1:50, reduction='pca', seed=1024){
   # sob2 = sob
   # if(min(SeuratObject::GetAssayData(sob2,slot = 'scale.data'))<0){
   #   sob2 = Seurat::ScaleData(sob2,do.center = F)
   # }
   set.seed(seed)
+  n.comp <- length(dims)
   w.init <- matrix(rnorm(n.comp^2),n.comp,n.comp)
-  vm <- sob@reductions[[reduction]]@cell.embeddings[,1:n.comp]
+  vm <- sob@reductions[[reduction]]@cell.embeddings[,dims]
   res <- fastICA::fastICA((vm), n.comp=n.comp, verbose = F, w.init = w.init)
 
   ## Seurat

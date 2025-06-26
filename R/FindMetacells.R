@@ -6,7 +6,7 @@
 #' @usage FindMetacells(
 #'   object,
 #'   reduction = "pca",
-#'   dims = 50,
+#'   dims = 1:50,
 #'   step = 20,
 #'   min.cells = 10,
 #'   seed = 1024,
@@ -16,7 +16,7 @@
 #'
 #' @param object A seurat object containing assays, reduction, meta data etc.
 #' @param reduction The reduction slot for ICA analysis. Default is pca.
-#' @param dims The target dimensions for ICA analysis. Default is 50.
+#' @param dims The target dimensions for ICA analysis. Default is 1:50.
 #' @param steps The number of steps for diffusion condensation in the independent component (IC) space. The default value is set to 20.
 #' @param min.cells The minimal number of cells in a cell cluster/subcluster. The default value is set to 10.
 #' @param seed The seed for generating intial w.init for fastICA. Default is 1024.
@@ -46,12 +46,12 @@
 #'                            force.recalc = F, return.neighbor = T)
 #' sc_object <- FindMetacells(sc_object)
 #'
-FindMetacells <- function(object, reduction='pca', dims=50, steps=20, min.cells=10, seed=1024, Q.final=0.75, Q.sub=0.6){
+FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cells=10, seed=1024, Q.final=0.75, Q.sub=0.6){
   if(!reduction %in% names(object@reductions)){
     stop(paste0("The ", reduction," reduction slot does not exist."))
   }
 
-  object <- RunICA(sob=object, n.comp=dims, reduction=reduction)
+  object <- RunICA(sob=object, dims=dims, reduction=reduction)
 
   k <- dim(object@neighbors$RNA.nn@nn.idx)[2]
   ## Build snn graph
