@@ -51,7 +51,7 @@ FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cell
     stop(paste0("The ", reduction," reduction slot does not exist."))
   }
 
-  object <- RunICA(sob=object, dims=dims, reduction=reduction)
+  object <- scArch::RunICA(sob=object, dims=dims, reduction=reduction)
 
   k <- dim(object@neighbors$RNA.nn@nn.idx)[2]
   ## Build snn graph
