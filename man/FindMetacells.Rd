@@ -7,7 +7,7 @@
 FindMetacells(
   object,
   reduction = "pca",
-  dims = 50,
+  dims = 1:50,
   step = 20,
   min.cells = 10,
   seed = 1024,
@@ -20,7 +20,7 @@ FindMetacells(
 
 \item{reduction}{The reduction slot for ICA analysis. Default is pca.}
 
-\item{dims}{The target dimensions for ICA analysis. Default is 50.}
+\item{dims}{The target dimensions for ICA analysis. Default is 1:50.}
 
 \item{steps}{The number of steps for diffusion condensation in the independent component (IC) space. The default value is set to 20.}
 
