@@ -216,4 +216,72 @@ metacell.expr <- function(sob){
 
 
 
+calculate_ari <- function(labels1, labels2) {
+  # 1. Input Validation
+  if (!is.vector(labels1) || !is.vector(labels2)) {
+    stop("Inputs must be vectors")
+  }
+  if (length(labels1) != length(labels2)) {
+    stop("Both vectors must have the same length")
+  }
+  if (length(labels1) == 0) {
+    return(NA)
+  }
+
+  n <- length(labels1)
+
+  # 2. Build Contingency Table
+  # table() counts the frequency of each combination of levels from the two factors
+  cont_table <- table(labels1, labels2)
+
+  # 3. Define Combination Function C(n, 2) = n * (n - 1) / 2
+  # Returns 0 if n < 2
+  choose2 <- function(k) {
+    k * (k - 1) / 2
+  }
+  # Vectorize the function to handle vectors efficiently
+  # The logic k*(k-1)/2 naturally yields 0 for k=0 or k=1, but we keep the check for clarity
+  choose2 <- Vectorize(function(k) ifelse(k < 2, 0, k * (k - 1) / 2))
+
+  # 4. Calculate Sums
+  # n_ij: Elements in the contingency table
+  sum_nij <- sum(choose2(cont_table))
+
+  # a_i: Row sums (size of each cluster in labels1)
+  a_i <- rowSums(cont_table)
+  sum_a <- sum(choose2(a_i))
+
+  # b_j: Column sums (size of each cluster in labels2)
+  b_j <- colSums(cont_table)
+  sum_b <- sum(choose2(b_j))
+
+  # Total number of pairs C(n, 2)
+  total_pairs <- choose2(n)
+
+  # 5. Calculate Expected Index
+  # The expected overlap assuming two clusterings are independent and random
+  expected_index <- (sum_a * sum_b) / total_pairs
+
+  # 6. Calculate Max Index
+  # The maximum possible index given the marginal sums
+  max_index <- (sum_a + sum_b) / 2
+
+  # 7. Calculate ARI
+  denominator <- max_index - expected_index
+
+  # Handle edge case where denominator is 0
+  # (e.g., all samples belong to a single cluster, or only one partition exists)
+  if (denominator == 0) {
+    if (sum_nij == expected_index) {
+      return(0) # No difference, defined as 0
+    } else {
+      return(1) # Perfect agreement (theoretically numerator should also be 0 unless identical)
+    }
+  }
+
+  ari <- (sum_nij - expected_index) / denominator
+
+  return(ari)
+}
+
 
