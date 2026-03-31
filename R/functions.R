@@ -141,7 +141,7 @@ RunICA <- function(sob,
       cnt.bad <- sort(cnt[bad.cl])
       for(cl in names(cnt.bad)){
         id.cl <- id[subcluster.comb==cl]
-        id.cl.neib <- unique(unlist(sob@graphs$snn$id[id.cl, 1:min(c(20, length(id.cl)))]))
+        id.cl.neib <- unique(unlist(sob@graphs$snn$id[id.cl, 1:min(c(k, length(id.cl)))]))
         share.len <- sapply(id.list, function(x){length(intersect(x, id.cl.neib))})
         id.neib <- names(which.max(share.len[names(share.len) != cl]))
         id.neib.now <- unique(subcluster.comb[id %in% id.list[[id.neib]][1]])
@@ -171,7 +171,8 @@ RunICA <- function(sob,
   if(length(id)<5){
     return(0)
   }else{
-    len <- min(length(id), 20)
+    k <- dim(sob@graphs$snn$k)
+    len <- min(length(id), k)
     snn.id <- c(sob@graphs$snn$id[id,1:len])
     return(length(snn.id[snn.id %in% id])/(len * length(id)))
   }

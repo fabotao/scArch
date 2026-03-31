@@ -106,7 +106,7 @@ FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cell
   count.mat <- matrix(0, dim(object)[2], length(id.list))
   for(m in 1:length(id.list)){
     m.id <- (id.list[[names(id.list)[m]]])
-    cnt.m <- table(c(object@graphs$snn$id[m.id,1:min(c(length(m.id), 20)), drop=F]))
+    cnt.m <- table(c(object@graphs$snn$id[m.id,1:min(c(length(m.id), k)), drop=F]))
     count.mat[as.integer(names(cnt.m)),as.integer(m)] <- cnt.m
   }
 
@@ -132,7 +132,7 @@ FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cell
   id.list <- tapply(1:dim(object)[2], subcluster0, function(x){x})
   cnt <- sapply(id.list, length)
   cpt.subcluster <- sapply(id.list, function(x){.get.compact(sob = object, x)})
-  small.cl <- union(names(cnt)[cnt < 5], intersect(names(cnt)[cnt < 20], names(cpt.subcluster)[cpt.subcluster < Q.final]))
+  small.cl <- union(names(cnt)[cnt < 5], intersect(names(cnt)[cnt < k], names(cpt.subcluster)[cpt.subcluster < Q.final]))
 
   good.id <- which(!subcluster0 %in% as.integer(small.cl))
   change = T
