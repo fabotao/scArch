@@ -1,16 +1,16 @@
 
 
 
-object = readRDS('/home/rstudio/cell_type/GSE303823_AD_DLB_PDD/AD_obj.RDS')
-
-object = FindMetacells(object, reduction = 'pca', dims = 1:20)
-
-
-cluster.layers = get.layers(object = object)
-object$condition = as.character(object$group)
-
-condition_col = 'condition'
-sample_col = 'sample'
+# object = readRDS('/home/rstudio/cell_type/GSE303823_AD_DLB_PDD/AD_obj.RDS')
+#
+# object = FindMetacells(object, reduction = 'pca', dims = 1:20)
+#
+#
+# cluster.layers = get.layers(object = object)
+# object$condition = as.character(object$group)
+#
+# condition_col = 'condition'
+# sample_col = 'sample'
 
 
 run_hierarchical_DA <- function(
@@ -130,49 +130,49 @@ run_hierarchical_DA <- function(
 }
 
 
-aa = run_hierarchical_DA(obj = object, cluster.layers = cluster.layers, condition_col = 'condition', sample_col = 'sample')
-
-
-ump = data.frame(X=tapply(object@reductions$umap@cell.embeddings[,1], cluster.layers[,dim(cluster.layers)[2]], mean),
-                 Y=tapply(object@reductions$umap@cell.embeddings[,2], cluster.layers[,dim(cluster.layers)[2]], mean),
-                 size=tapply(1:dim(cluster.layers)[1], cluster.layers[,dim(cluster.layers)[2]], length))
-
-plot.layer.kk = function(kk){
-
-  ump.dat = ump
-  ump.dat$logFC = aa$logFC[,kk]
-  ump.dat$FDR = aa$FDR[,kk]
-  ump.dat$logFC[ump.dat$FDR > 0.1] = NA
-
-  ggplot(data=ump.dat) + geom_point(aes(x=X, y=Y, size=size, color=logFC)) + scale_color_gradient2(name='logFC', na.value = 'white')
-}
-
-meta = object@meta.data
-meta$X = object@reductions$umap@cell.embeddings[,1]
-meta$Y = object@reductions$umap@cell.embeddings[,2]
-
-ggplot(data=meta) + geom_point(aes(x=X, y=Y, color=factor(cell.type)))
-
-
-
-mc.type = tapply(object$cell.type, object$metacell, function(x){
-  cnt = table(x)
-  return(names(cnt)[which.max(cnt)])
-})
-
-
-which(aa$FDR[,10] < 0.1 & mc.type=='Inhibitory neuron')
-
-object$IN_grp1 = ifelse(object$metacell %in% c(588, 593, 594), 'grp1',
-                        ifelse(object$cell.type == 'Inhibitory neuron', 'grp2', 'oth'))
-Idents(object) = 'IN_grp1'
-
-DefaultAssay(object) = 'RNA'
-object = NormalizeData(object)
-mk = FindMarkers(object, ident.1 = 'grp2', ident.2 = 'grp1', slot='data')
-mk[mk$avg_log2FC < 0,]
-VlnPlot(object = object, features = c('MSR1','PDE1A','CDH12','SOX6','GRIK1','GRIK3','CDH8','ERBB4','CSMD3','GABRB2','GABRG3'),assay = 'RNA', stack=T, flip=T,slot='data')
-
+# aa = run_hierarchical_DA(obj = object, cluster.layers = cluster.layers, condition_col = 'condition', sample_col = 'sample')
+#
+#
+# ump = data.frame(X=tapply(object@reductions$umap@cell.embeddings[,1], cluster.layers[,dim(cluster.layers)[2]], mean),
+#                  Y=tapply(object@reductions$umap@cell.embeddings[,2], cluster.layers[,dim(cluster.layers)[2]], mean),
+#                  size=tapply(1:dim(cluster.layers)[1], cluster.layers[,dim(cluster.layers)[2]], length))
+#
+# plot.layer.kk = function(kk){
+#
+#   ump.dat = ump
+#   ump.dat$logFC = aa$logFC[,kk]
+#   ump.dat$FDR = aa$FDR[,kk]
+#   ump.dat$logFC[ump.dat$FDR > 0.1] = NA
+#
+#   ggplot(data=ump.dat) + geom_point(aes(x=X, y=Y, size=size, color=logFC)) + scale_color_gradient2(name='logFC', na.value = 'white')
+# }
+#
+# meta = object@meta.data
+# meta$X = object@reductions$umap@cell.embeddings[,1]
+# meta$Y = object@reductions$umap@cell.embeddings[,2]
+#
+# ggplot(data=meta) + geom_point(aes(x=X, y=Y, color=factor(cell.type)))
+#
+#
+#
+# mc.type = tapply(object$cell.type, object$metacell, function(x){
+#   cnt = table(x)
+#   return(names(cnt)[which.max(cnt)])
+# })
+#
+#
+# which(aa$FDR[,10] < 0.1 & mc.type=='Inhibitory neuron')
+#
+# object$IN_grp1 = ifelse(object$metacell %in% c(588, 593, 594), 'grp1',
+#                         ifelse(object$cell.type == 'Inhibitory neuron', 'grp2', 'oth'))
+# Idents(object) = 'IN_grp1'
+#
+# DefaultAssay(object) = 'RNA'
+# object = NormalizeData(object)
+# mk = FindMarkers(object, ident.1 = 'grp2', ident.2 = 'grp1', slot='data')
+# mk[mk$avg_log2FC < 0,]
+# VlnPlot(object = object, features = c('MSR1','PDE1A','CDH12','SOX6','GRIK1','GRIK3','CDH8','ERBB4','CSMD3','GABRB2','GABRG3'),assay = 'RNA', stack=T, flip=T,slot='data')
+#
 
 
 
