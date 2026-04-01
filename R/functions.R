@@ -171,7 +171,7 @@ RunICA <- function(sob,
   if(length(id)<5){
     return(0)
   }else{
-    k <- dim(sob@graphs$snn$k)
+    k <- (sob@graphs$snn$k)
     len <- min(length(id), k)
     print(length(len))
     print(paste0('k=',k))
