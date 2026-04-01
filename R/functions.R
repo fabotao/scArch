@@ -173,6 +173,8 @@ RunICA <- function(sob,
   }else{
     k <- dim(sob@graphs$snn$k)
     len <- min(length(id), k)
+    print(length(len))
+    print(paste0('k=',k))
     snn.id <- c(sob@graphs$snn$id[id,1:len])
     return(length(snn.id[snn.id %in% id])/(len * length(id)))
   }
