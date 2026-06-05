@@ -106,6 +106,7 @@ FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cell
   clu0 <- 1:N
   change = T
   iter = 0
+  max_iter = 100
   while(change){
     clu <- apply(knn.matrix[,1:k],1,function(x){
       cpt.x <- cell.cpt[x]
