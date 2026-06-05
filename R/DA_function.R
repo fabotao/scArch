@@ -121,16 +121,30 @@ run_hierarchical_DA <- function(
       cluster.count <- table(clust.df.x$cluster, clust.df.x$Sample)
       attributes(cluster.count)$class <- "matrix"
 
-      ## Test with same NB-GLM model as the Milo
+      # ## Test with same NB-GLM model as the Milo
+      # if(norm.method %in% c("TMM")){
+      #   # message("Using TMM normalisation")
+      #   dge <- DGEList(counts=cluster.count,
+      #                  lib.size=colSums(cluster.count))
+      #   dge <- calcNormFactors(dge, method="TMM")
+      # } else if(norm.method %in% c("logMS")){
+      #  # message("Using logMS normalisation")
+      #   dge <- DGEList(counts=cluster.count,
+      #                  lib.size=colSums(cluster.count))
+      # }
+
       if(norm.method %in% c("TMM")){
-        # message("Using TMM normalisation")
-        dge <- DGEList(counts=cluster.count,
-                       lib.size=colSums(cluster.count))
-        dge <- calcNormFactors(dge, method="TMM")
-      } else if(norm.method %in% c("logMS")){
-       # message("Using logMS normalisation")
-        dge <- DGEList(counts=cluster.count,
-                       lib.size=colSums(cluster.count))
+        dge <- DGEList(counts = cluster.count,
+                       lib.size = colSums(cluster.count))
+
+        # 先检查子节点数是否足够TMM稳定估计
+        if(nrow(cluster.count) < 8){
+          warning("Too few clusters (n=", nrow(cluster.count),
+                  ") for stable TMM estimation, switching to logMS")
+          # 不调用calcNormFactors，直接用logMS
+        } else {
+          dge <- calcNormFactors(dge, method="TMM")
+        }
       }
 
       model <- model.matrix(design, data=design_df)

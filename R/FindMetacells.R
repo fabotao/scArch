@@ -73,16 +73,52 @@ FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cell
   object@reductions[['nmf_mod']] <- object@reductions$ica
   object@reductions$nmf_mod@cell.embeddings <- t(h.mat)
 
-  cluster <- apply(h.mat, 2, function(x){
-    pc.pos <- which.max(x)
-    pc.limit <- abs(range(x))
-    pc.neg <- which.min(x)
-    if(pc.limit[1] > pc.limit[2]){
-      return(-pc.neg)
-    }else{
-      return(pc.pos)
+  # cluster <- apply(h.mat, 2, function(x){
+  #   pc.pos <- which.max(x)
+  #   pc.limit <- abs(range(x))
+  #   pc.neg <- which.min(x)
+  #   if(pc.limit[1] > pc.limit[2]){
+  #     return(-pc.neg)
+  #   }else{
+  #     return(pc.pos)
+  #   }
+  # })
+
+  ##===============================================================================================
+  .get.compact <- function(knn.matrix, id, k.param=20){
+    len <- length(id)
+    if(len < k.param){
+      snn.id <- c(knn.matrix[id,1:len])
+      len.base <- max(c(len, 5))
+      return(sum(snn.id %in% id)/(len.base * len.base))
+    }else {
+      snn.id <- c(knn.matrix[id,1:k.param])
+      len.base <- k.param
+      return(sum(snn.id %in% id)/(len.base * len))
     }
-  })
+  }
+
+  knn.matrix <- object@neighbors$RNA.nn@nn.idx
+  knn.dist <- object@neighbors$RNA.nn@nn.dist
+  k.param = dim(knn.matrix)[2]  # The number of nearest neighbors obtained in data preprocessing.
+  N = dim(knn.matrix)[1]
+  cell.cpt <- apply(knn.matrix[,1:k],1,function(x){.get.compact(knn.matrix = knn.matrix, x, k.param=k.param)})
+  clu0 <- 1:N
+  change = T
+  iter = 0
+  while(change){
+    clu <- apply(knn.matrix[,1:k],1,function(x){
+      cpt.x <- cell.cpt[x]
+      return(clu0[min(x[which(cpt.x == max(cpt.x))])])
+    })
+    iter = iter + 1
+    if(all(clu==clu0) | iter > max_iter){change = F}
+    clu0 = clu
+  }
+
+  cluster = clu0
+
+##==========================================================================
 
   #id.list <- tapply(1:dim(object)[2], cluster, function(x){return(x)})
   #cluster.adj <- .adjust.cluster(object=object, id.list) # Not significant with this step
