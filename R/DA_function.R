@@ -56,7 +56,7 @@ run_DA <- function(
   }
 
   model <- model.matrix(design, data=design_df)
-  rownames(model) <- design_df$synth_samples
+  rownames(model) <- design_df[[sample_col]]
   model <- model[colnames(cluster.count), ]
 
   dge <- estimateDisp(dge, model)
