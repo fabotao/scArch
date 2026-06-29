@@ -9,6 +9,7 @@ library(patchwork)
 
 runRedistributionMapping <- function(
     object,
+    reduction,
     da_results,
     cluster.layers
 ){
@@ -351,7 +352,7 @@ analyzeParent <- function(
   ##########################################################
 
   gene.loading <-
-    object@reductions$pca_RNA@feature.loadings %*%
+    object@reductions[[reduction]]@feature.loadings %*%
     object@reductions$ica@feature.loadings
 
   colnames(gene.loading) <- colnames(object@reductions$ica@cell.embeddings)
