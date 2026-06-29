@@ -1262,41 +1262,41 @@ plotRedistributionTree <- function(
 ## Usage
 ############################################################
 
-res <-
-  runRedistributionMapping(
-    object,
-    da_results,
-    cluster.layers
-  )
-
-plotRedistributionOverview(res)
-parent.res <-
-  analyzeParent(
-    object = object,
-    res = res,
-    cluster.layers = cluster.layers,
-    level = res$parent.rank$Level[26],
-    parent = res$parent.rank$Parent[26]
-  )
-
-
-tree.res <-
-  plotRedistributionTree(
-    object =object,
-    res =  res,
-    cluster.layers =cluster.layers[,1:dim(cluster.layers)[2]],
-    group.by = "CellType",
-    max.level =  12
-  )
-
-parent.res <-
-  analyzeParent(
-    object = object,
-    res = res,
-    cluster.layers = cluster.layers,
-    level = 'Lv.3',
-    parent = 4
-  )
+# res <-
+#   runRedistributionMapping(
+#     object,
+#     da_results,
+#     cluster.layers
+#   )
+#
+# plotRedistributionOverview(res)
+# parent.res <-
+#   analyzeParent(
+#     object = object,
+#     res = res,
+#     cluster.layers = cluster.layers,
+#     level = res$parent.rank$Level[26],
+#     parent = res$parent.rank$Parent[26]
+#   )
+#
+#
+# tree.res <-
+#   plotRedistributionTree(
+#     object =object,
+#     res =  res,
+#     cluster.layers =cluster.layers[,1:dim(cluster.layers)[2]],
+#     group.by = "CellType",
+#     max.level =  12
+#   )
+#
+# parent.res <-
+#   analyzeParent(
+#     object = object,
+#     res = res,
+#     cluster.layers = cluster.layers,
+#     level = 'Lv.3',
+#     parent = 4
+#   )
 
 
 
