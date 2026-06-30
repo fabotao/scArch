@@ -46,16 +46,20 @@
 #'                            force.recalc = F, return.neighbor = T)
 #' sc_object <- FindMetacells(sc_object)
 #'
-FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cells=10, seed=1024, Q.final=0.75, Q.sub=0.6){
+FindMetacells <- function(object, reduction='pca', dims=1:50, steps=20, min.cells=10, seed=1024, Q.final=0.75, Q.sub=0.6, assay='RNA'){
   if(!reduction %in% names(object@reductions)){
     stop(paste0("The ", reduction," reduction slot does not exist."))
   }
 
   object <- scArch::RunICA(sob=object, dims=dims, reduction=reduction)
+  nn.slot = paste0(assay, '.nn')
+  if(!nn.slot %in% names(object@neighbors)){
+    stop(paste0("The ", nn.slot," slot does not exist."))
+  }
 
-  k <- dim(object@neighbors$RNA.nn@nn.idx)[2]
+  k <- dim(object@neighbors[[nn.slot]]@nn.idx)[2]
   ## Build snn graph
-  knn.100 <- list(object@neighbors$RNA.nn@nn.idx, object@neighbors$RNA.nn@nn.dist)
+  knn.100 <- list(object@neighbors[[nn.slot]]@nn.idx, object@neighbors[[nn.slot]]@nn.dist)
   names(knn.100) <- c('id', 'dist')
   knn.100[['k']] <- k
   knn.100[['sort']] <- T
